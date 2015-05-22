@@ -2,6 +2,7 @@ graphics = {}
 
 function graphics.initialize()
    screenWidth, screenHeight = 64, 48
+   defaultWidth, defaultHeight = love.window.getDimensions()
    graphics.calculateScale()
    canvasScale = 16
    love.graphics.setBlendMode("alpha")
@@ -27,13 +28,17 @@ end
 function graphics.toggleFullscreen()
    love.window.setFullscreen(not love.window.getFullscreen(), "desktop")
    graphics.calculateScale()
-   background.initialize()
 end
 
 function graphics.calculateScale()
-   scale = love.graphics.getHeight() / screenHeight
+   if love.window.getFullscreen() then
+      scale = love.window.getHeight() / screenHeight
+      widescreenOffset = (love.window.getWidth() / scale - screenWidth) / 2
+   else
+      scale = defaultHeight / screenHeight
+      widescreenOffset = 0
+   end
    halfScale = scale / 2
-   widescreenOffset = (love.graphics.getWidth() / scale - screenWidth) / 2
 end
 
 function graphics.lockToGrid(coordinate)
