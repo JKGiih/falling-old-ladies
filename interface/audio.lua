@@ -34,6 +34,13 @@ function audio.initialize()
    end
 end
 
+function audio.randomizePitch(effect)
+   local newPitch = (effect:getPitch() + 1.5^(love.math.random(2) * 2 - 3)) / 2
+   if newPitch < 0.8 then newPitch = 0.8 end
+   if newPitch > 1.2 then newPitch = 1.2 end
+   effect:setPitch(newPitch)
+end
+
 function audio.playEffect(effect)
    effect:play()
 end

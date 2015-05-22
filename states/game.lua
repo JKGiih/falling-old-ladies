@@ -5,6 +5,7 @@ function game.initialize()
    player.initialize()
    enemies.initialize()
    score.initialize()
+   audio.randomizePitch(crash)
    paused = false
 end
 
@@ -55,6 +56,7 @@ function game.gamepadpressed(joystick, button)
    if button == "start" then
       paused = not paused
       if audioAvailable and audioOn then
+         audio.randomizePitch(walk)
          if paused then audio.pauseEffect(walk) else audio.resumeEffect(walk) end
       end
    elseif button == "back" and not paused then
@@ -63,6 +65,7 @@ function game.gamepadpressed(joystick, button)
    elseif (button == "dpleft" or button == "dpright") then
       gamepadDirectionDown = true
       if soundAvailable and soundOn then
+         audio.randomizePitch(walk)
          audio.playEffect(walk)
       end
    end
@@ -92,6 +95,7 @@ function game.keypressed(key)
       splash.initialize()
       state = "splash"
    elseif (key == "left" or key == "right" or key == "a" or key == "d") and soundAvailable and soundOn then
+      audio.randomizePitch(walk)
       audio.playEffect(walk)
    end
 end

@@ -28,7 +28,9 @@ function enemies.spawn(dt)
    local ladySplatSound = 0
    if soundAvailable then
       ladyFallSound = fall:clone()
+      audio.randomizePitch(ladyFallSound)
       ladySplatSound = splat:clone()
+      audio.randomizePitch(ladySplatSound)
    end
    table.insert(ladies, {ladyX, ladyY, ladyFinalLeftLegOffset, ladyFinalRightLegOffset, ladyFinalBodyOffset, ladyFallSound, ladySplatSound})
    if soundAvailable and soundOn then audio.playEffect(ladies[table.getn(ladies)][6]) end
