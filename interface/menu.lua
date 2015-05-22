@@ -125,24 +125,24 @@ function menu.gamepadpressed(joystick, button)
       menuFrameOffset = menuFrameOffset - 8
       if menuFrameOffset < 2 then menuFrameOffset = 2 end
    elseif button == "dpleft" then
-      if menuFrameOffset == 10 then
+      if menuFrameOffset == 10 and soundAvailable then
          audio.lowerSoundVolume()
-      elseif menuFrameOffset == 18 then
+      elseif menuFrameOffset == 18 and musicAvailable then
          audio.lowerMusicVolume()
       end
    elseif button == "dpright" then
-      if menuFrameOffset == 10 then
+      if menuFrameOffset == 10 and soundAvailable then
          audio.raiseSoundVolume()
-      elseif menuFrameOffset == 18 then
+      elseif menuFrameOffset == 18 and musicAvailable then
          audio.raiseMusicVolume()
       end
    elseif (button == "a" or button == "start") then
       if menuFrameOffset == 2 then
          game.initialize()
          state = "game"
-      elseif menuFrameOffset == 10 then
+      elseif menuFrameOffset == 10 and soundAvailable then
          audio.toggleSound()
-      elseif menuFrameOffset == 18 then
+      elseif menuFrameOffset == 18 and musicAvailable then
          audio.toggleMusic()
       elseif menuFrameOffset == 26 then
          love.event.quit()
@@ -160,24 +160,24 @@ function menu.keypressed(key)
       menuFrameOffset = menuFrameOffset - 8
       if menuFrameOffset < 2 then menuFrameOffset = 2 end
    elseif key == "left" or key == "a" then
-      if menuFrameOffset == 10 then
+      if menuFrameOffset == 10 and soundAvailable then
          audio.lowerSoundVolume()
-      elseif menuFrameOffset == 18 then
+      elseif menuFrameOffset == 18 and musicAvailable then
          audio.lowerMusicVolume()
       end
    elseif key == "right" or key =="d" then
-      if menuFrameOffset == 10 then
+      if menuFrameOffset == 10 and soundAvailable then
          audio.raiseSoundVolume()
-      elseif menuFrameOffset == 18 then
+      elseif menuFrameOffset == 18 and musicAvailable then
          audio.raiseMusicVolume()
       end
    elseif key == "return" or key == " " then
 	   if menuFrameOffset == 2 then
          game.initialize()
          state = "game"
-      elseif menuFrameOffset == 10 then
+      elseif menuFrameOffset == 10 and soundAvailable then
          audio.toggleSound()
-      elseif menuFrameOffset == 18 then
+      elseif menuFrameOffset == 18 and musicAvailable then
          audio.toggleMusic()
       elseif menuFrameOffset == 26 then
          love.event.quit()

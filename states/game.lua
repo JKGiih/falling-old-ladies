@@ -5,7 +5,7 @@ function game.initialize()
    player.initialize()
    enemies.initialize()
    score.initialize()
-   audio.randomizePitch(crash)
+   if soundAvailable then audio.randomizePitch(crash) end
    paused = false
 end
 
