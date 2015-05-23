@@ -1,10 +1,26 @@
 player = {}
 
 function player.initialize()
+   local setColor = love.graphics.setColor
+   local rectangle = love.graphics.rectangle
+   local setCanvas = love.graphics.setCanvas
+   local canvasScale = canvasScale
    playerWidth = 6
    playerHeight = 8
    playerX = screenWidth / 2 - playerWidth / 2
    playerY = screenHeight - 10
+   playerCanvas = love.graphics.newCanvas(playerWidth * canvasScale, playerHeight * canvasScale)
+   setCanvas(playerCanvas)
+   playerCanvas:clear()
+   setColor(colors[7])
+   rectangle('fill', canvasScale, 0, 4 * canvasScale, canvasScale)
+   rectangle('fill', 0, canvasScale, 6 * canvasScale, 2 * canvasScale)
+   rectangle('fill', canvasScale, 7 * canvasScale, canvasScale, canvasScale)
+   rectangle('fill', 4 * canvasScale, 7 * canvasScale, canvasScale, canvasScale)
+   setColor(colors[4])
+   rectangle('fill', canvasScale, 3 * canvasScale, 4 * canvasScale, canvasScale)
+   rectangle('fill', 0, 4 * canvasScale, 6 * canvasScale, 3 * canvasScale)
+   setCanvas()
 end
 
 function player.update(dt)
@@ -32,22 +48,9 @@ function player.update(dt)
 end
 
 function player.draw()
-   local setColor = love.graphics.setColor
-   local rectangle = love.graphics.rectangle
-   local playerX = graphics.lockToGrid(playerX)
-   local playerY = playerY
-   local scale = scale
-   local widescreenOffset = widescreenOffset
-   setColor(colors[7])
-   rectangle('fill', (playerX + 1 + widescreenOffset) * scale, (playerY - playerY % 1 + 5) * scale, 1 * scale, 1 * scale)
-   rectangle('fill', (playerX + 4 + widescreenOffset) * scale, (playerY - playerY % 1 + 5) * scale, 1 * scale, 1 * scale)
-   setColor(colors[4])
-   rectangle('fill', (playerX + widescreenOffset) * scale, (playerY - playerY % 1 + 4) * scale, 6 * scale, 1 * scale)
-   rectangle('fill', (playerX + widescreenOffset) * scale, (playerY - playerY % 1 + 3) * scale, 6 * scale, 1 * scale)
-   rectangle('fill', (playerX + widescreenOffset) * scale, (playerY - playerY % 1 + 2) * scale, 6 * scale, 1 * scale)
-   rectangle('fill', (playerX + 1 + widescreenOffset) * scale, (playerY - playerY % 1 + 1) * scale, 4 * scale, 1 * scale)
-   setColor(colors[7])
-   rectangle('fill', (playerX + widescreenOffset) * scale, (playerY - playerY % 1) * scale, 6 * scale, 1 * scale)
-   rectangle('fill', (playerX + widescreenOffset) * scale, (playerY - playerY % 1 - 1) * scale, 6 * scale, 1 * scale)
-   rectangle('fill', (playerX + 1 + widescreenOffset) * scale, (playerY - playerY % 1 - 2) * scale, 4 * scale, 1 * scale)
+   local canvasScale = canvasScale
+   love.graphics.push()
+   love.graphics.scale(scale / canvasScale)
+   love.graphics.draw(playerCanvas, (widescreenOffset + graphics.lockToGrid(playerX)) * canvasScale, playerY * canvasScale, 0, 1, 1)
+   love.graphics.pop()
 end

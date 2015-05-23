@@ -78,7 +78,7 @@ end
 function title.draw()
    local lockToGrid = graphics.lockToGridRoundUp
    local draw = love.graphics.draw
-   local scale = scale
+   local canvasScale = canvasScale
    local widescreenOffset = widescreenOffset
    love.graphics.push()
    love.graphics.scale(scale / canvasScale)
