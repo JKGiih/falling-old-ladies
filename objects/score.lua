@@ -3,8 +3,13 @@ score = {}
 function score.initialize()
    local random = love.math.random
    local getn = table.getn
+   local setColor = love.graphics.setColor
+   local rectangle = love.graphics.rectangle
+   local newCanvas = love.graphics.newCanvas
+   local setCanvas = love.graphics.setCanvas
+   local canvasScale = canvasScale
    ladiesDodged = 0
-   numberBlocks = {
+   local numberBlocks = {
       {
          {2, 3},
          {1, 4},
@@ -76,7 +81,7 @@ function score.initialize()
          {2, 3}
       }
    }
-   numberBlockColors = {
+   local numberBlockColors = {
       {{}, {}, {}, {}, {}},
       {{}, {}, {}, {}, {}},
       {{}, {}, {}, {}, {}},
@@ -95,6 +100,18 @@ function score.initialize()
          end
       end
    end
+   scoreCanvases = {newCanvas(4 * canvasScale, 5 * canvasScale), newCanvas(4 * canvasScale, 5 * canvasScale), newCanvas(4 * canvasScale, 5 * canvasScale), newCanvas(4 * canvasScale, 5 * canvasScale), newCanvas(4 * canvasScale, 5 * canvasScale), newCanvas(4 * canvasScale, 5 * canvasScale), newCanvas(4 * canvasScale, 5 * canvasScale), newCanvas(4 * canvasScale, 5 * canvasScale), newCanvas(4 * canvasScale, 5 * canvasScale), newCanvas(4 * canvasScale, 5 * canvasScale)}         
+   for i = 1, 10 do
+      setCanvas(scoreCanvases[i])
+      scoreCanvases[i]:clear()
+      for j = 1, 5 do
+         for k = 1, getn(numberBlocks[i][j]) do
+            setColor(colors[numberBlockColors[i][j][k]])
+            rectangle('fill', (numberBlocks[i][j][k] - 1) * canvasScale, (j - 1) * canvasScale, canvasScale, canvasScale)
+         end
+      end
+   end
+   setCanvas()
 end
 
 function score.increment()
@@ -103,47 +120,22 @@ function score.increment()
 end
 
 function score.draw()
-   local getn = table.getn
-   local setColor = love.graphics.setColor
-   local rectangle = love.graphics.rectangle
+   local draw = love.graphics.draw
    local scale = scale
-   local halfScale = halfScale
    local widescreenOffset = widescreenOffset
-   local screenWidth = screenWidth
    local ladiesDodged = ladiesDodged
-   -- print ones
-   for i = 1, 5 do
-      for j = 1, getn(numberBlocks[ladiesDodged % 10 + 1][i]) do
-         setColor(colors[numberBlockColors[ladiesDodged % 10 + 1][i][j]])
-         rectangle('fill', (numberBlocks[ladiesDodged % 10 + 1][i][j] + screenWidth + 7) * halfScale + widescreenOffset * scale, i * halfScale + scale * 2, halfScale, halfScale)
-      end
-   end
-   -- print tens
-   for i = 1, 5 do
-      for j = 1, getn(numberBlocks[(ladiesDodged - ladiesDodged % 10) / 10 % 10 + 1][i]) do
-         setColor(colors[numberBlockColors[(ladiesDodged - ladiesDodged % 10) / 10 % 10 + 1][i][j]])
-         rectangle('fill', (numberBlocks[(ladiesDodged - ladiesDodged % 10) / 10 % 10 + 1][i][j] + screenWidth + 2) * halfScale + widescreenOffset * scale, i * halfScale + scale * 2, halfScale, halfScale)
-      end
-   end
-   -- print hundreds
-   for i = 1, 5 do
-      for j = 1, getn(numberBlocks[(ladiesDodged - ladiesDodged % 100) / 100 % 10 + 1][i]) do
-         setColor(colors[numberBlockColors[(ladiesDodged - ladiesDodged % 100) / 100 % 10 + 1][i][j]])
-         rectangle('fill', (numberBlocks[(ladiesDodged - ladiesDodged % 100) / 100 % 10 + 1][i][j] + screenWidth - 3) * halfScale + widescreenOffset * scale, i * halfScale + scale * 2, halfScale, halfScale)
-      end
-   end
-   -- print thousands
-   for i = 1, 5 do
-      for j = 1, getn(numberBlocks[(ladiesDodged - ladiesDodged % 1000) / 1000 % 10 + 1][i]) do
-         setColor(colors[numberBlockColors[(ladiesDodged - ladiesDodged % 1000) / 1000 % 10 + 1][i][j]])
-         rectangle('fill', (numberBlocks[(ladiesDodged - ladiesDodged % 1000) / 1000 % 10 + 1][i][j] + screenWidth - 8) * halfScale + widescreenOffset * scale, i * halfScale + scale * 2, halfScale, halfScale)
-      end
-   end
-   -- print tens of thousands
-   for i = 1, 5 do
-      for j = 1, getn(numberBlocks[(ladiesDodged - ladiesDodged % 10000) / 10000 % 10 + 1][i]) do
-         setColor(colors[numberBlockColors[(ladiesDodged - ladiesDodged % 10000) / 10000 % 10 + 1][i][j]])
-         rectangle('fill', (numberBlocks[(ladiesDodged - ladiesDodged % 10000) / 10000 % 10 + 1][i][j] + screenWidth - 13) * halfScale + widescreenOffset * scale, i * halfScale + scale * 2, halfScale, halfScale)
-      end
-   end
+   love.graphics.push()
+   love.graphics.scale(scale / canvasScale)
+   -- ones
+   draw(scoreCanvases[ladiesDodged % 10 + 1], (widescreenOffset + 40) * canvasScale, 2 * canvasScale, 0, 1, 1)
+   -- tens
+   draw(scoreCanvases[(ladiesDodged - ladiesDodged % 10) / 10 % 10 + 1], (widescreenOffset + 35) * canvasScale, 2 * canvasScale, 0, 1, 1)
+   -- hundreds
+   draw(scoreCanvases[(ladiesDodged - ladiesDodged % 100) / 100 % 10 + 1], (widescreenOffset + 30) * canvasScale, 2 * canvasScale, 0, 1, 1)
+   -- thousands
+   draw(scoreCanvases[(ladiesDodged - ladiesDodged % 1000) / 1000 % 10 + 1], (widescreenOffset + 25) * canvasScale, 2 * canvasScale, 0, 1, 1)
+   -- tens of thousands
+   draw(scoreCanvases[(ladiesDodged - ladiesDodged % 10000) / 10000 % 10 + 1], (widescreenOffset + 20) * canvasScale, 2 * canvasScale, 0, 1, 1)
+         
+   love.graphics.pop()
 end
