@@ -3,104 +3,87 @@ title = {}
 function title.initialize()
    local random = love.math.random
    local getn = table.getn
-   titleFalling = {
-      {5, 6, 7, 8, 11, 12, 13, 15, 20, 25, 27, 31, 34, 35},
-      {5, 10, 13, 15, 20, 25, 27, 28, 31, 33},
-      {5, 6, 7, 8, 10, 11, 12, 13, 15, 20, 25, 27, 29, 31, 33, 35, 36},
-      {5, 10, 13, 15, 20, 25, 27, 30, 31, 33, 36},
-      {5, 10, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 27, 31, 34, 35}
+   local setColor = love.graphics.setColor
+   local rectangle = love.graphics.rectangle
+   local newCanvas = love.graphics.newCanvas
+   local setCanvas = love.graphics.setCanvas
+   local canvasScale = canvasScale
+   local titleBlocks = {
+      {
+         {1, 2, 3, 4, 7, 8, 9, 11, 16, 21, 23, 27, 30, 31},
+         {1, 6, 9, 11, 16, 21, 23, 24, 27, 29},
+         {1, 2, 3, 4, 6, 7, 8, 9, 11, 16, 21, 23, 25, 27, 29, 31, 32},
+         {1, 6, 9, 11, 16, 21, 23, 26, 27, 29, 32},
+         {1, 6, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 23, 27, 30, 31}
+      },
+      {
+         {2, 3, 4, 7, 12, 13, 14},
+         {1, 5, 7, 12, 15},
+         {1, 5, 7, 12, 15},
+         {1, 5, 7, 12, 15},
+         {2, 3, 4, 7, 8, 9, 10, 12, 13, 14}
+      },
+      {
+         {1, 7, 8, 9, 11, 12, 13, 16, 18, 19, 20, 21, 24, 25, 26},
+         {1, 6, 9, 11, 14, 16, 18, 23},
+         {1, 6, 7, 8, 9, 11, 14, 16, 18, 19, 20, 21, 24, 25},
+         {1, 6, 9, 11, 14, 16, 18, 26},
+         {1, 2, 3, 4, 6, 9, 11, 12, 13, 16, 18, 19, 20, 21, 23, 24, 25}
+      }
    }
-   titleFallingColors = {
-      {},
-      {},
-      {},
-      {},
-      {}
+   local titleBlockColors = {
+      {{}, {}, {}, {}, {}},
+      {{}, {}, {}, {}, {}},
+      {{}, {}, {}, {}, {}},
+      {{}, {}, {}, {}, {}},
+      {{}, {}, {}, {}, {}},
+      {{}, {}, {}, {}, {}},
+      {{}, {}, {}, {}, {}},
+      {{}, {}, {}, {}, {}},
+      {{}, {}, {}, {}, {}},
+      {{}, {}, {}, {}, {}},
    }
-   for i = 1, getn(titleFalling) do
-      for j = 1, getn(titleFalling[i]) do
-         titleFallingColors[i][j] = random(3) + 2
+   for i = 1, getn(titleBlocks) do
+      for j = 1, getn(titleBlocks[i]) do
+         for k = 1, getn(titleBlocks[i][j]) do
+            titleBlockColors[i][j][k] = random(3) + 3 - i
+         end
       end
    end
-   titleOld = {
-      {39, 40, 41, 44, 49, 50, 51},
-      {38, 42, 44, 49, 52},
-      {38, 42, 44, 49, 52},
-      {38, 42, 44, 49, 52},
-      {39, 40, 41, 44, 45, 46, 47, 49, 50, 51}
-   }
-   titleOldColors = {
-      {},
-      {},
-      {},
-      {},
-      {}
-   }
-   for i = 1, getn(titleOld) do
-      for j = 1, getn(titleOld[i]) do
-         titleOldColors[i][j] = random(3) + 1
+   titleCanvases = {newCanvas(32 * canvasScale, 5 * canvasScale), newCanvas(15 * canvasScale, 5 * canvasScale), newCanvas(26 * canvasScale, 5 * canvasScale)}
+   for i = 1, 3 do
+      setCanvas(titleCanvases[i])
+      titleCanvases[i]:clear()
+      for j = 1, 5 do
+         for k = 1, getn(titleBlocks[i][j]) do
+            setColor(colors[titleBlockColors[i][j][k]])
+            rectangle('fill', (titleBlocks[i][j][k] - 1) * canvasScale, (j - 1) * canvasScale, canvasScale, canvasScale)
+         end
       end
    end
-   titleLadies = {
-      {11, 17, 18, 19, 21, 22, 23, 26, 28, 29, 30, 31, 34, 35, 36},
-      {11, 16, 19, 21, 24, 26, 28, 33},
-      {11, 16, 17, 18, 19, 21, 24, 26, 28, 29, 30, 31, 34, 35},
-      {11, 16, 19, 21, 24, 26, 28, 36},
-      {11, 12, 13, 14, 16, 19, 21, 22, 23, 26, 28, 29, 30, 31, 33, 34, 35}
-   }
-   titleLadiesColors = {
-      {},
-      {},
-      {},
-      {},
-      {}
-   }
-   for i = 1, getn(titleLadies) do
-      for j = 1, getn(titleLadies[i]) do
-         titleLadiesColors[i][j] = random(3)
-      end
-   end
-   titleFallingOffset = 0
-   titleOldOffset = -14
-   titleLadiesOffset = -20
+   setCanvas()
+   titleOffsets = {0, -14, -20}
 end
 
 function title.update(dt)
-   if titleFallingOffset < screenHeight - 20 then
-      titleFallingOffset = titleFallingOffset + dt * 20
-   elseif titleOldOffset < screenHeight - 14 then
-      titleOldOffset = titleOldOffset + dt * 23
-   elseif titleLadiesOffset < screenHeight - 9 then
-      titleLadiesOffset = titleLadiesOffset + dt * 28
+   if titleOffsets[1] < screenHeight - 20 then
+      titleOffsets[1] = titleOffsets[1] + dt * 20
+   elseif titleOffsets[2] < screenHeight - 14 then
+      titleOffsets[2] = titleOffsets[2] + dt * 23
+   elseif titleOffsets[3] < screenHeight - 8 then
+      titleOffsets[3] = titleOffsets[3] + dt * 28
    end
 end
 
 function title.draw()
-   local getn = table.getn
-   local setColor = love.graphics.setColor
-   local rectangle = love.graphics.rectangle
    local lockToGrid = graphics.lockToGridRoundUp
-   local titleFallingOffset = lockToGrid(titleFallingOffset)
-   local titleOldOffset = lockToGrid(titleOldOffset)
-   local titleLadiesOffset = lockToGrid(titleLadiesOffset)
+   local draw = love.graphics.draw
    local scale = scale
    local widescreenOffset = widescreenOffset
-   for i = 1, getn(titleFalling) do
-      for j = 1, getn(titleFalling[i]) do
-         setColor(colors[titleFallingColors[i][j]])
-         rectangle("fill", (titleFalling[i][j] + widescreenOffset) * scale, (titleFallingOffset + i) * scale, scale, scale)
-      end
+   love.graphics.push()
+   love.graphics.scale(scale / canvasScale)
+   for i = 1, 3 do
+      draw(titleCanvases[i], (widescreenOffset + 7 + (i % 2) * 15) * canvasScale, lockToGrid(titleOffsets[i]) * canvasScale, 0, 1, 1)
    end
-   for i = 1, getn(titleOld) do
-      for j = 1, getn(titleOld[i]) do
-         setColor(colors[titleOldColors[i][j]])
-         rectangle("fill", (titleOld[i][j] + widescreenOffset) * scale, (titleOldOffset + i) * scale, scale, scale)
-      end
-   end
-   for i = 1, getn(titleLadies) do
-      for j = 1, getn(titleLadies[i]) do
-         setColor(colors[titleLadiesColors[i][j]])
-         rectangle("fill", (titleLadies[i][j] + widescreenOffset) * scale, (titleLadiesOffset + i) * scale, scale, scale)
-      end
-   end
+   love.graphics.pop()
 end
