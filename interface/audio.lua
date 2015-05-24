@@ -16,14 +16,14 @@ function audio.initialize()
       musicAvailable = false
       musicOn = false
    end
-   if exists("assets/walk.wav") and exists("assets/fall.wav") and exists("assets/splat.wav") and exists("assets/crash.wav") then
-      walk = newSource("assets/walk.wav", static)
+   if exists("assets/walk.ogg") and exists("assets/fall.ogg") and exists("assets/splat.ogg") and exists("assets/crash.ogg") then
+      walk = newSource("assets/walk.ogg", static)
       walk:setLooping(true)
-      fall = newSource("assets/fall.wav", static)
+      fall = newSource("assets/fall.ogg", static)
       fall:setLooping(false)
-      splat = newSource("assets/splat.wav", static)
+      splat = newSource("assets/splat.ogg", static)
       splat:setLooping(false)
-      crash = newSource("assets/crash.wav", static)
+      crash = newSource("assets/crash.ogg", static)
       crash:setLooping(false)
       soundAvailable = true
       audio.setSoundVolume()
