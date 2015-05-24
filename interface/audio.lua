@@ -5,8 +5,8 @@ function audio.initialize()
    local newSource = love.audio.newSource
    musicVolume = 0.50
    soundVolume = 0.50
-   if love.filesystem.exists("assets/bgm.mp3") then 
-      music = love.audio.newSource("assets/bgm.mp3")
+   if love.filesystem.exists("assets/bgm.ogg") then 
+      music = love.audio.newSource("assets/bgm.ogg")
       music:setLooping(true)
       musicAvailable = true
       audio.setMusicVolume()
