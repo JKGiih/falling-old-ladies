@@ -34,14 +34,7 @@ function credits.initialize()
    local creditsBlockColors = {
       {{}, {}, {}, {}, {}},
       {{}, {}, {}, {}, {}},
-      {{}, {}, {}, {}, {}},
-      {{}, {}, {}, {}, {}},
-      {{}, {}, {}, {}, {}},
-      {{}, {}, {}, {}, {}},
-      {{}, {}, {}, {}, {}},
-      {{}, {}, {}, {}, {}},
-      {{}, {}, {}, {}, {}},
-      {{}, {}, {}, {}, {}},
+      {{}, {}, {}, {}, {}}
    }
    for i = 1, getn(creditsBlocks) do
       for j = 1, getn(creditsBlocks[i]) do
@@ -78,7 +71,7 @@ end
 function credits.draw()
    local lockToGrid = graphics.lockToGridRoundUp
    local draw = love.graphics.draw
-   local scale = scale
+   local canvasScale = canvasScale
    local widescreenOffset = widescreenOffset
    love.graphics.push()
    love.graphics.scale(scale / canvasScale)
