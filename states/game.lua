@@ -55,7 +55,7 @@ end
 function game.gamepadpressed(joystick, button)
    if button == "start" then
       paused = not paused
-      if audioAvailable and audioOn then
+      if soundAvailable and soundOn then
          audio.randomizePitch(walk)
          if paused then audio.pauseEffect(walk) else audio.resumeEffect(walk) end
       end
@@ -67,6 +67,7 @@ function game.gamepadpressed(joystick, button)
       if soundAvailable and soundOn then
          audio.randomizePitch(walk)
          audio.playEffect(walk)
+         if paused then audio.pauseEffect(walk) end
       end
    end
 end
@@ -88,7 +89,7 @@ function game.keypressed(key)
       graphics.toggleFullscreen()
    elseif key == " " then
       paused = not paused
-      if audioAvailable and audioOn then
+      if soundAvailable and soundOn then
          if paused then audio.pauseEffect(walk) else audio.resumeEffect(walk) end
       end
    elseif key == "escape" and not paused then
@@ -97,6 +98,7 @@ function game.keypressed(key)
    elseif (key == "left" or key == "right" or key == "a" or key == "d") and soundAvailable and soundOn then
       audio.randomizePitch(walk)
       audio.playEffect(walk)
+      if paused then audio.pauseEffect(walk) end
    end
 end
 
