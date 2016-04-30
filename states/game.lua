@@ -20,19 +20,19 @@ function game.checkCollisions()
             if playerX - ladies[i][1] < playerWidth then
                if ladies[i][2] + playerHeight - 2 > playerY or playerX - ladies[i][1] < playerWidth - 2 then
                   if soundAvailable and soundOn then
-                     audio.playEffect(crash)
-                     gameover.initialize()
-                     state = "gameover"
+                     audio.playEffect(crash)                     
                   end
+		  gameover.initialize()
+                  state = "gameover"
                end
             end
          elseif ladies[i][1] - playerX < playerWidth then
             if ladies[i][2] + playerHeight - 2 > playerY or ladies[i][1] - playerX < playerWidth - 2 then
                if soundAvailable and soundOn then
-                  audio.playEffect(crash)
-                  gameover.initialize()
-                  state = "gameover"
+                  audio.playEffect(crash)                  
                end
+	       gameover.initialize()
+               state = "gameover"
             end
          end
       end
